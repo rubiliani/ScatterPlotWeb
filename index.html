@@ -6,69 +6,77 @@ body {
   font: 10px sans-serif;
 }
 
-.axis path, .axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}
-
-.point {
-  fill: steelblue;
-  stroke: #000;
-}
 
 </style>
 <body>
-	<h1>SctterPlot</h1>
-	<h2>X Axis - The distance from Tel Aviv</h2>
-	<h2>Y Axis - The average salary in city</h2>
-	<h2>We can see the proximity to Tel Aviv does not necessarily improve the average salary</h2>
-<script src="http://d3js.org/d3.v2.js?2.9.6"></script>
+	<h1>ShenkarLab</h1>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/topojson.v1.min.js"></script>
+
 <script>
 
-var margin = {top: 40, right: 40, bottom: 40, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-
-var x = d3.scale.linear()
-    .range([0, width]);
-
-var y = d3.scale.linear()
-    .range([height, 0]);
-
-var svg = d3.select("body").append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-  .append("g")
-    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-d3.csv("includes/finalcsv.csv", function(data) {
-
-  
-  x.domain(d3.extent(data, function(d) { return d.dist; })).nice();
-  y.domain(d3.extent(data, function(d) { return d.salary; })).nice();
-
-  // Add the x-axis.
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.svg.axis().scale(x).orient("bottom"));
-
-  // Add the y-axis.
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(d3.svg.axis().scale(y).orient("left"));
+var centerPos=100;
+   
+var sqr1 = '{"sum":30,"color":"green"}';
+var sqr2 = '{"sum":40,"color":"blue"}';
+var sqr3 = '{"sum":80,"color":"red"}';
+var sqr4 = '{"sum":50,"color":"purple"}';
 
 
-  // Add the points!
-  svg.selectAll(".point")
-      .data(data)
-    .enter().append("path")
-      .attr("class", "point")
-      .attr("d", d3.svg.symbol().type("circle"))
-      .attr("transform", function(d) { return "translate(" + x(d.dist) + "," + y(d.salary) + ")"; });
-      
-      
-});
-
+ 
+ 	var svgContainer = d3.select("body").append("svg")
+                                     .attr("width", 200)
+                                     .attr("height", 200);
+ 
+	
+	var obj = JSON.parse(sqr1);
+	
+	var circleAttributes = svgContainer.append("rect")
+                       .attr("x", centerPos )
+                       .attr("y", centerPos )
+                       .attr("width", obj.sum)
+                       .attr("height", obj.sum )
+                       .style("fill", obj.color);
+                       
+    var obj = JSON.parse(sqr2);
+	
+	var circleAttributes = svgContainer.append("rect")
+                       .attr("x", centerPos )
+                       .attr("y", centerPos - obj.sum )
+                       .attr("width", obj.sum)
+                       .attr("height", obj.sum )
+                       .style("fill", obj.color);
+                       
+    var obj = JSON.parse(sqr3);
+	
+	var circleAttributes = svgContainer.append("rect")
+                       .attr("x", centerPos - obj.sum)
+                       .attr("y", centerPos - obj.sum )
+                       .attr("width", obj.sum)
+                       .attr("height", obj.sum )
+                       .style("fill", obj.color);
+                       
+     var obj = JSON.parse(sqr4);
+	
+	 var circleAttributes = svgContainer.append("rect")
+                       .attr("x", centerPos - obj.sum)
+                       .attr("y", centerPos)
+                       .attr("width", obj.sum)
+                       .attr("height", obj.sum )
+                       .style("fill", obj.color);
+                       
+                       
+                       
 </script>
+
+<script src="includes/datamaps.world.min.js"></script>
+<div id="container" style="position: relative; width: 500px; height: 300px;"></div>
+<script>
+    var map = new Datamap({
+    	element: document.getElementById('container')
+    	
+    	});
+</script>
+
+
+
